@@ -22,11 +22,8 @@ export class SalesController {
         try {
 
             //pass the user saving the sale
-            await authValidator.checkValidateToken(request, response, next);
-    
-            const userEmail = request.user.user
 
-            const user  = await this.userRepository.findOne({where: {email: userEmail}});
+            const user  = await this.checkAndValidateUser(request, response, next);
 
             if(user){
 
@@ -74,11 +71,8 @@ export class SalesController {
         try {
 
             //pass the user saving the sale
-            await authValidator.checkValidateToken(request, response, next);
-    
-            const userEmail = request.user.user
 
-            const user  = await this.userRepository.findOne({where: {email: userEmail}});
+            const user  = await this.checkAndValidateUser(request, response, next);
 
             // return user;
 
@@ -147,11 +141,8 @@ export class SalesController {
         try {
             
             //pass the user saving the sale
-            await authValidator.checkValidateToken(request, response, next);
-    
-            const userEmail = request.user.user
 
-            const user  = await this.userRepository.findOne({where: {email: userEmail}});
+            const user  = await this.checkAndValidateUser(request, response, next);
 
             // return user;
 
@@ -223,11 +214,8 @@ export class SalesController {
         try {
 
             //pass the user saving the sale
-            await authValidator.checkValidateToken(request, response, next);
-    
-            const userEmail = request.user.user
 
-            const user  = await this.userRepository.findOne({where: {email: userEmail}});
+            const user  = await this.checkAndValidateUser(request, response, next);
 
             // return user;
 
@@ -301,5 +289,22 @@ export class SalesController {
             
         }
         
+    }
+
+
+
+    //check and validate user token
+
+    async checkAndValidateUser(request, response, next){
+
+        //pass the user who owns the expenses
+        await authValidator.checkValidateToken(request, response, next);
+    
+        const userEmail = request.user.user
+
+        const user  = await this.userRepository.findOne({where: {email: userEmail}});
+
+        return user;
+
     }
 }
