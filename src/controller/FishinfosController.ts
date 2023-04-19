@@ -1,13 +1,5 @@
-import { DataSource, getRepository, TreeParent } from "typeorm";
 import { Request, Response, NextFunction } from "express";
-import * as authValidator from "../middleware/auth";
-import { User } from "../entity/User";
-import { fail } from "assert";
-import { REPLServer } from "repl";
-import { runInThisContext } from "vm";
 import { AppDataSource } from "../data-source";
-import { Sale } from "../entity/Sale";
-import { Expense } from "../entity/Expense";
 import { Fishinfo } from "../entity/Fishinfo";
 
 export class FishinfosController {

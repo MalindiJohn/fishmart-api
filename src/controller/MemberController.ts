@@ -1,9 +1,7 @@
-import { getRepository } from "typeorm";
 import { Member } from "../entity/Member";
 import { Request, Response, NextFunction } from "express";
 import { User } from "../entity/User";
 import { AppDataSource } from "../data-source";
-import { request } from "http";
 
 export class MembersController {
     private membersRepo = AppDataSource.getRepository(Member);
