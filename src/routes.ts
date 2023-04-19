@@ -91,7 +91,7 @@ export const Routes = [
 },
 {
     method: 'delete',
-    route: '/api/tips/remove/:id',
+    route: '/api/sales/remove/:id',
     controller: SalesController,
     action: 'removeSale'
 },

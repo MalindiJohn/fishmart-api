@@ -142,31 +142,64 @@ export class SalesController {
     /** Incase of any errors or typos in the sale.
      * this method makes it possible to edit the sale
      */
-    async editSale(request: Request, response: Response) {
+    async editSale(request, response: Response, next: NextFunction) {
 
         try {
+            
+            //pass the user saving the sale
+            await authValidator.checkValidateToken(request, response, next);
+    
+            const userEmail = request.user.user
 
-            const saleId = request.params.id;
-            const saleToEdit = await this.salesRepository.findOne({where: {id: parseInt(saleId)}});
-    
-            // if a match matching the id is found
-            if(saleToEdit) {
-                const tryToUpdate = await this.salesRepository.update(saleId, request.body)
-                
-                if(tryToUpdate.affected > 0) {
+            const user  = await this.userRepository.findOne({where: {email: userEmail}});
+
+            // return user;
+
+            if(user){
+
+                const saleId = request.params.id;
+                const saleToEdit = await this.salesRepository.findOne({where: {id: parseInt(saleId), user: {id: user.id}}});
+        
+                // if a match matching the id is found
+                if(saleToEdit) {
+                    const tryToUpdate = await this.salesRepository.update(saleId, request.body)
+                    
+                    if(tryToUpdate.affected > 0) {
+                        response.status(200)
+                        const update_message = {
+                            "message": "Sale updated successfully. done!!"
+                        }
+                        return update_message;
+                    } else{
+        
+                        response.status(500)
+                        const update_message = {
+                            
+                            "message": "Something went wrong"+tryToUpdate.raw
+                        }
+                    }
+                } else {
+
                     response.status(200)
+
                     const update_message = {
-                        "message": "Sale updated successfully. done!!"
+                        "message": "Whoops! The sale you are trying to edit doesn't exist."
                     }
+
                     return update_message;
-                } else{
-    
-                    response.status(500)
-                    const update_message = {
-                        
-                        "message": "Something went wrong"+tryToUpdate.raw
-                    }
+
                 }
+
+            } else{
+
+                const success_message = {
+                    "message": "You are not authorized to edit a sale"
+                }
+    
+                response.status(200) // created
+
+                return success_message;
+
             }
             
         } catch (error) {
@@ -185,29 +218,73 @@ export class SalesController {
     }
 
     //remove or delete a sale
-    async removeSale(request: Request, response: Response, next: NextFunction) {
+    async removeSale(request, response: Response, next: NextFunction) {
 
         try {
 
-            let saleToRemove = await this.salesRepository.findOne({where: {id: parseInt(request.params.id)}});
-            const removed = await this.salesRepository.remove(saleToRemove);
-            if(removed) {
+            //pass the user saving the sale
+            await authValidator.checkValidateToken(request, response, next);
+    
+            const userEmail = request.user.user
 
-                const message = {
+            const user  = await this.userRepository.findOne({where: {email: userEmail}});
 
-                    "message": "Sale removed successfully"
+            // return user;
+
+            if(user){
+
+                let saleToRemove = await this.salesRepository.findOne({where: {id: parseInt(request.params.id), user: {id: user.id}}});
+
+                //check if the sale to remove exists
+                if(saleToRemove){
+
+                    const removed = await this.salesRepository.remove(saleToRemove);
+                    if(removed) {
+        
+                        const message = {
+        
+                            "message": "Sale removed successfully"
+                        }
+        
+                        return message;
+        
+                    } else {
+        
+                        const message = {
+        
+                            "message": "There was an error removing the selected sale"
+                        }
+        
+                        return message;
+                    }
+
+
+                } else {
+
+                    const success_message = {
+                        
+                        "message": "Whoops! The sale you are trying to remove does not exist."
+                    }
+    
+                    response.status(200) // created
+    
+                    return success_message;
+
+
                 }
 
-                return message;
 
             } else {
-
-                const message = {
-
-                    "message": "There was an error removing the selected sale"
+                
+                const success_message = {
+                    "message": "You are not authorized to remove this sale"
                 }
 
-                return message;
+                response.status(200) // created
+
+                return success_message;
+
+
             }
             
         } catch (error) {
