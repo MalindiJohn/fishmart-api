@@ -1,0 +1,25 @@
+{
+    "type": "mysql",
+    "host": "containers-us-west-127.railway.app",
+    "port": 7259,
+    "username": "root",
+    "password": "oONLKHBzHAlJXvhtTQAR",
+    "database": "railway",
+    "synchronize": true,
+    "logging": false,
+    "entities": [
+       "src/entity/**/*.ts"
+    ],
+    "migrations": [
+       "src/migration/**/*.ts"
+    ],
+    "subscribers": [
+       "src/subscriber/**/*.ts"
+    ],
+    "cli": {
+       "entitiesDir": "src/entity",
+       "migrationsDir": "src/migration",
+       "subscribersDir": "src/subscriber"
+    }
+ }
+ 
