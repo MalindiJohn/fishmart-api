@@ -5,7 +5,7 @@ dotenv.config()
 
 export const AppDataSource = new DataSource(
 
-    // live railway database setting
+    // live database setting
     // {
     //     type: "postgres",
     //     host: process.env.DATABASE_HOST,
