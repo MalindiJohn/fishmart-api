@@ -139,7 +139,7 @@ export const Routes = [
     method: 'get',
     route: '/api/fishinfo/:id',
     controller: FishinfosController,
-    action: 'getFishInfo'
+    action: 'getSingleFishInfo'
 },
 // {
 //     method: 'post',

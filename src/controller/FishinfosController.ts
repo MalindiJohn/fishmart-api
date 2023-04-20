@@ -116,7 +116,7 @@ export class FishinfosController {
     }
 
     //get one fish info 
-    async getOne(request: Request, response: Response) {
+    async getSingleFishInfo(request: Request, response: Response) {
 
         try {
 
@@ -126,7 +126,7 @@ export class FishinfosController {
             if(fishInfo){
 
                 return fishInfo;
-                
+
             } else{
 
                 response.status(200);
