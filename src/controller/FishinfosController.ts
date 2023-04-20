@@ -73,7 +73,7 @@ export class FishinfosController {
     /** Incase of any errors or typos in the fish info.
      * this method makes it possible to edit the fish info
      */
-    async editExpense(request: Request, response: Response) {
+    async editFishInfo(request: Request, response: Response) {
 
         try {
 
@@ -98,6 +98,45 @@ export class FishinfosController {
                         "message": "Something went wrong"+tryToUpdate.raw
                     }
                 }
+            }
+            
+        } catch (error) {
+
+            response.status(500);
+
+            let errorMessage = {
+
+                "message": "Whoops! something went wrong try again later",
+                "error": error
+            }
+
+            return errorMessage;
+            
+        }
+    }
+
+    //get one fish info 
+    async getOne(request: Request, response: Response) {
+
+        try {
+
+            const fishInfoId = request.params.id;
+            const fishInfo = await this.fishinfoRepository.findOne({where: {id: parseInt(fishInfoId)}});
+
+            if(fishInfo){
+
+                return fishInfo;
+                
+            } else{
+
+                response.status(200);
+    
+                let message = {
+    
+                    "message": "Whoops! Could not get the request fish info",
+                }
+    
+                return message;
             }
             
         } catch (error) {

@@ -135,12 +135,12 @@ export const Routes = [
     controller: FishinfosController,
     action: 'allFishInfo'
 },
-// {
-//     method: 'get',
-//     route: '/api/fishinfo/:id',
-//     controller: FishinfosController,
-//     action: 'getFishInfo'
-// },
+{
+    method: 'get',
+    route: '/api/fishinfo/:id',
+    controller: FishinfosController,
+    action: 'getFishInfo'
+},
 // {
 //     method: 'post',
 //     route: '/api/fishinfo/create',
